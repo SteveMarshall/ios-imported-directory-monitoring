@@ -11,6 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD9D327F26E2D00E00137C62 /* NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements; sourceTree = "<group>"; };
 		FDD9822A26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NSMetadataQueryUbiquitousExternalDocumentsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD9822D26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift; sourceTree = "<group>"; };
 		FDD9823C26E2C17200547C01 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		FDD9822C26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest */ = {
 			isa = PBXGroup;
 			children = (
+				FD9D327F26E2D00E00137C62 /* NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements */,
 				FDD9822D26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift */,
 			);
 			path = NSMetadataQueryUbiquitousExternalDocumentsTest;

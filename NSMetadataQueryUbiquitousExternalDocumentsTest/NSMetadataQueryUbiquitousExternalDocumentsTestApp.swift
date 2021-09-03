@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -6,6 +7,10 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
     @State private var adding: AddMode? = nil
     @State private var addedItems = [URL]()
 
+    @State private var query = NSMetadataQuery()
+    @State private var fileMonitor: AnyCancellable? = nil
+    @State private var foundItems = [NSMetadataItem]()
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -13,6 +18,12 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                     Section("Added items") {
                         ForEach(addedItems, id: \.absoluteString) { added in
                             Text(added.lastPathComponent)
+                        }
+                    }
+
+                    Section("Found items") {
+                        ForEach(foundItems, id: \.fileSystemName) { found in
+                            Text(found.fileSystemName)
                         }
                     }
                 }
@@ -49,6 +60,46 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
         addedItems.append(
             contentsOf: urls
         )
+        findAccessibleFiles()
+    }
+}
+
+extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+    func findAccessibleFiles() {
+        query.stop()
+        fileMonitor?.cancel()
+
+        fileMonitor = Publishers.MergeMany(
+            [
+                .NSMetadataQueryDidFinishGathering,
+                .NSMetadataQueryDidUpdate
+            ].map { NotificationCenter.default.publisher(for: $0) }
+        )
+            .receive(on: DispatchQueue.main)
+            .sink { notification in
+                query.disableUpdates()
+                defer { query.enableUpdates() }
+
+                foundItems = query.results as! [NSMetadataItem]
+                print("Query posted \(notification.name.rawValue) with results: \(query.results)")
+            }
+
+        query.searchScopes = [
+            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope
+        ]
+        query.predicate = NSPredicate(
+            format: "%K LIKE %@",
+            argumentArray: [NSMetadataItemFSNameKey, "*"]
+        )
+        query.sortDescriptors = [
+            NSSortDescriptor(key: NSMetadataItemFSNameKey, ascending: true)
+        ]
+
+        if query.start() {
+            print("Query started")
+        } else {
+            print("Query didn't start for some reason")
+        }
     }
 }
 
@@ -63,5 +114,15 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
             case .file: return [.content]
             }
         }
+    }
+}
+
+extension NSMetadataItem {
+    var fileSystemName: String {
+        guard let fileSystemName = value(
+            forAttribute: NSMetadataItemFSNameKey
+        ) as? String else { return "" }
+
+        return fileSystemName
     }
 }
