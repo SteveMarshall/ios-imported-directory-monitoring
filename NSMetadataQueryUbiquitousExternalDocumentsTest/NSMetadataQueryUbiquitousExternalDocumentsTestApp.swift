@@ -65,7 +65,19 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
 }
 
 extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+    func configureUbiquityAccess(to container: String? = nil) {
+        DispatchQueue.global().async {
+            guard let _ = FileManager.default.url(forUbiquityContainerIdentifier: container) else {
+                print("⛔️ Failed to configure iCloud container URL for: \(container ?? "nil")\n"
+                        + "Make sure your iCloud is available and run again.")
+                return
+            }
+            print("Successfully configured iCloud container?")
+        }
+    }
+
     func findAccessibleFiles() {
+        configureUbiquityAccess(to: "iCloud.com.stevemarshall.AnnotateML")
         query.stop()
         fileMonitor?.cancel()
 
