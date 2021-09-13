@@ -25,20 +25,25 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                         }
                     }
 
-                    Section("Found items") {
+                    Section("Found \(foundItems.count) items") {
                         ForEach(foundItems, id: \.fileSystemName) { found in
                             Text(found.fileSystemName)
                         }
                     }
                 }
                 .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button(action: addFile, label: {
+                            Label("Add file", systemImage: "doc.badge.plus")
+                        })
                         Button(action: { importing = .file }, label: {
                             Label("Import file", systemImage: "arrow.down.doc")
                         })
                         Button(action: { importing = .folder }, label: {
                             Label("Import folder", systemImage: "square.and.arrow.down")
                         })
+                    } label: {
+                        Label("Add item", systemImage: "plus")
                     }
                 }
                 .fileImporter(
@@ -80,18 +85,37 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
         to container: String? = nil,
         then access: (() -> Void)?
     ) {
+        // This shouldn't be on the main thread because it can apparently take some time
         DispatchQueue.global().async {
-            guard let _ = FileManager.default.url(forUbiquityContainerIdentifier: container) else {
+            guard let url = FileManager.default.url(
+                forUbiquityContainerIdentifier: container
+            ) else {
                 print("⛔️ Failed to configure iCloud container URL for: \(container ?? "nil")\n"
                         + "Make sure your iCloud is available and run again.")
                 return
             }
 
             print("Successfully configured iCloud container")
+            rootURL = url
             access.map { DispatchQueue.main.async(execute: $0) }
         }
     }
+}
 
+extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+    func addFile() {
+        guard let fileURL = rootURL?.appendingPathComponent(
+            UUID().uuidString,
+            isDirectory: false
+        ) else { return }
+
+        NSFileCoordinator().coordinate(writingItemAt: fileURL, options: .forReplacing, error: nil) { newURL in
+            FileManager.default.createFile(atPath: newURL.path, contents: nil)
+        }
+    }
+}
+
+extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
     func findAccessibleFiles() {
         query.stop()
         fileMonitor?.cancel()
@@ -108,7 +132,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
                 defer { query.enableUpdates() }
 
                 foundItems = query.results as! [NSMetadataItem]
-                print("Query posted \(notification.name.rawValue) with results: \(query.results)")
+                print("Query posted \(notification.name.rawValue) with \(foundItems.count) results: \(query.results)")
             }
 
         query.searchScopes = [
