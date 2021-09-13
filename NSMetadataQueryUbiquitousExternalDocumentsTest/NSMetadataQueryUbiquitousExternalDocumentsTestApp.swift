@@ -4,8 +4,8 @@ import UniformTypeIdentifiers
 
 @main
 struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
-    @State private var adding: AddMode? = nil
-    @State private var addedItems = [URL]()
+    @State private var importing: Importing? = nil
+    @State private var importedItems = [URL]()
 
     @State private var query = NSMetadataQuery()
     @State private var fileMonitor: AnyCancellable? = nil
@@ -15,9 +15,9 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
         WindowGroup {
             NavigationView {
                 List {
-                    Section("Added items") {
-                        ForEach(addedItems, id: \.absoluteString) { added in
-                            Text(added.lastPathComponent)
+                    Section("Imported items") {
+                        ForEach(importedItems, id: \.absoluteString) { imported in
+                            Text(imported.lastPathComponent)
                         }
                     }
 
@@ -29,20 +29,20 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button(action: { adding = .file }, label: {
-                            Label("Add file", systemImage: "doc.badge.plus")
+                        Button(action: { importing = .file }, label: {
+                            Label("Import file", systemImage: "arrow.down.doc")
                         })
-                        Button(action: { adding = .folder }, label: {
-                            Label("Add folder", systemImage: "folder.badge.plus")
+                        Button(action: { importing = .folder }, label: {
+                            Label("Import folder", systemImage: "square.and.arrow.down")
                         })
                     }
                 }
                 .fileImporter(
                     isPresented: Binding(
-                        get: { adding != nil },
-                        set: { _ in adding = nil }
+                        get: { importing != nil },
+                        set: { _ in importing = nil }
                     ),
-                    allowedContentTypes: adding?.allowedContentTypes ?? [],
+                    allowedContentTypes: importing?.allowedContentTypes ?? [],
                     allowsMultipleSelection: true,
                     onCompletion: importFiles
                 )
@@ -57,7 +57,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
         guard case .success(let urls) = result else {
             return
         }
-        addedItems.append(
+        importedItems.append(
             contentsOf: urls
         )
         findAccessibleFiles()
@@ -116,7 +116,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
 }
 
 extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
-    private enum AddMode {
+    private enum Importing {
         case folder
         case file
 
