@@ -4,6 +4,8 @@ import UniformTypeIdentifiers
 
 @main
 struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     @State private var importing: Importing? = nil
     @State private var importedItems = [URL]()
 
@@ -47,6 +49,14 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                     onCompletion: importFiles
                 )
                 .navigationTitle("MetadataQuery Test")
+                .onChange(of: scenePhase) { newPhase in
+                    guard newPhase == .active else { return }
+
+                    configureUbiquityAccess(
+                        to: "iCloud.com.stevemarshall.AnnotateML",
+                        then: findAccessibleFiles
+                    )
+                }
             }
         }
     }
@@ -60,24 +70,27 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
         importedItems.append(
             contentsOf: urls
         )
-        findAccessibleFiles()
     }
 }
 
 extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
-    func configureUbiquityAccess(to container: String? = nil) {
+    func configureUbiquityAccess(
+        to container: String? = nil,
+        then access: (() -> Void)?
+    ) {
         DispatchQueue.global().async {
             guard let _ = FileManager.default.url(forUbiquityContainerIdentifier: container) else {
                 print("⛔️ Failed to configure iCloud container URL for: \(container ?? "nil")\n"
                         + "Make sure your iCloud is available and run again.")
                 return
             }
-            print("Successfully configured iCloud container?")
+
+            print("Successfully configured iCloud container")
+            access.map { DispatchQueue.main.async(execute: $0) }
         }
     }
 
     func findAccessibleFiles() {
-        configureUbiquityAccess(to: "iCloud.com.stevemarshall.AnnotateML")
         query.stop()
         fileMonitor?.cancel()
 
