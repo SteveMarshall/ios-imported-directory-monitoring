@@ -13,6 +13,8 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
     @State private var fileMonitor: AnyCancellable? = nil
     @State private var foundItems = [NSMetadataItem]()
 
+    @State private var rootURL: URL? = nil
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -110,7 +112,8 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
             }
 
         query.searchScopes = [
-            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope
+            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope,
+            rootURL as Any
         ]
         query.predicate = NSPredicate(
             format: "%K LIKE %@",
