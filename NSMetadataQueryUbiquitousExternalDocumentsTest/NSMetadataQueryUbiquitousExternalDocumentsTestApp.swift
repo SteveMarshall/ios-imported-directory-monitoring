@@ -4,49 +4,66 @@ import UniformTypeIdentifiers
 
 @main
 struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
-    @State private var adding: AddMode? = nil
-    @State private var addedItems = [URL]()
+    @Environment(\.scenePhase) private var scenePhase
+
+    @State private var importing: Importing? = nil
+    @State private var importedItems = [URL]()
 
     @State private var query = NSMetadataQuery()
     @State private var fileMonitor: AnyCancellable? = nil
     @State private var foundItems = [NSMetadataItem]()
 
+    @State private var rootURL: URL? = nil
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 List {
-                    Section("Added items") {
-                        ForEach(addedItems, id: \.absoluteString) { added in
-                            Text(added.lastPathComponent)
+                    Section("Imported items") {
+                        ForEach(importedItems, id: \.absoluteString) { imported in
+                            Text(imported.lastPathComponent)
                         }
                     }
 
-                    Section("Found items") {
+                    Section("Found \(foundItems.count) items") {
                         ForEach(foundItems, id: \.fileSystemName) { found in
                             Text(found.fileSystemName)
                         }
                     }
                 }
                 .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button(action: { adding = .file }, label: {
+                    Menu {
+                        Button(action: addFile, label: {
                             Label("Add file", systemImage: "doc.badge.plus")
                         })
-                        Button(action: { adding = .folder }, label: {
-                            Label("Add folder", systemImage: "folder.badge.plus")
+                        Button(action: { importing = .file }, label: {
+                            Label("Import file", systemImage: "arrow.down.doc")
                         })
+                        Button(action: { importing = .folder }, label: {
+                            Label("Import folder", systemImage: "square.and.arrow.down")
+                        })
+                    } label: {
+                        Label("Add item", systemImage: "plus")
                     }
                 }
                 .fileImporter(
                     isPresented: Binding(
-                        get: { adding != nil },
-                        set: { _ in adding = nil }
+                        get: { importing != nil },
+                        set: { _ in importing = nil }
                     ),
-                    allowedContentTypes: adding?.allowedContentTypes ?? [],
+                    allowedContentTypes: importing?.allowedContentTypes ?? [],
                     allowsMultipleSelection: true,
                     onCompletion: importFiles
                 )
                 .navigationTitle("MetadataQuery Test")
+                .onChange(of: scenePhase) { newPhase in
+                    guard newPhase == .active else { return }
+
+                    configureUbiquityAccess(
+                        to: "iCloud.com.stevemarshall.AnnotateML",
+                        then: findAccessibleFiles
+                    )
+                }
             }
         }
     }
@@ -57,10 +74,44 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
         guard case .success(let urls) = result else {
             return
         }
-        addedItems.append(
+        importedItems.append(
             contentsOf: urls
         )
-        findAccessibleFiles()
+    }
+}
+
+extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+    func configureUbiquityAccess(
+        to container: String? = nil,
+        then access: (() -> Void)?
+    ) {
+        // This shouldn't be on the main thread because it can apparently take some time
+        DispatchQueue.global().async {
+            guard let url = FileManager.default.url(
+                forUbiquityContainerIdentifier: container
+            ) else {
+                print("⛔️ Failed to configure iCloud container URL for: \(container ?? "nil")\n"
+                        + "Make sure your iCloud is available and run again.")
+                return
+            }
+
+            print("Successfully configured iCloud container")
+            rootURL = url
+            access.map { DispatchQueue.main.async(execute: $0) }
+        }
+    }
+}
+
+extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+    func addFile() {
+        guard let fileURL = rootURL?.appendingPathComponent(
+            UUID().uuidString,
+            isDirectory: false
+        ) else { return }
+
+        NSFileCoordinator().coordinate(writingItemAt: fileURL, options: .forReplacing, error: nil) { newURL in
+            FileManager.default.createFile(atPath: newURL.path, contents: nil)
+        }
     }
 }
 
@@ -81,11 +132,12 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
                 defer { query.enableUpdates() }
 
                 foundItems = query.results as! [NSMetadataItem]
-                print("Query posted \(notification.name.rawValue) with results: \(query.results)")
+                print("Query posted \(notification.name.rawValue) with \(foundItems.count) results: \(query.results)")
             }
 
         query.searchScopes = [
-            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope
+            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope,
+            rootURL as Any
         ]
         query.predicate = NSPredicate(
             format: "%K LIKE %@",
@@ -104,7 +156,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
 }
 
 extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
-    private enum AddMode {
+    private enum Importing {
         case folder
         case file
 
