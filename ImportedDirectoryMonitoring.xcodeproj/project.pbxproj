@@ -8,15 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		FD015C5626F3671C004AF160 /* FilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD015C5526F3671C004AF160 /* FilePresenter.swift */; };
-		FDD9822E26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD9822D26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift */; };
+		FDD9822E26E279F800547C01 /* ImportedDirectoryMonitoringApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD9822D26E279F800547C01 /* ImportedDirectoryMonitoringApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FD015C5526F3671C004AF160 /* FilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePresenter.swift; sourceTree = "<group>"; };
-		FD9D327F26E2D00E00137C62 /* NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements; sourceTree = "<group>"; };
+		FD9D327F26E2D00E00137C62 /* ImportedDirectoryMonitoring.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImportedDirectoryMonitoring.entitlements; sourceTree = "<group>"; };
 		FD9D328026E56DF500137C62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FDD9822A26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NSMetadataQueryUbiquitousExternalDocumentsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDD9822D26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift; sourceTree = "<group>"; };
+		FDD9822A26E279F800547C01 /* ImportedDirectoryMonitoring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImportedDirectoryMonitoring.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDD9822D26E279F800547C01 /* ImportedDirectoryMonitoringApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportedDirectoryMonitoringApp.swift; sourceTree = "<group>"; };
 		FDD9823C26E2C17200547C01 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FDD9823D26E2C17200547C01 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -37,7 +37,7 @@
 			children = (
 				FDD9823D26E2C17200547C01 /* LICENSE */,
 				FDD9823C26E2C17200547C01 /* README.md */,
-				FDD9822C26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest */,
+				FDD9822C26E279F800547C01 /* ImportedDirectoryMonitoring */,
 				FDD9822B26E279F800547C01 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,28 +45,28 @@
 		FDD9822B26E279F800547C01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FDD9822A26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest.app */,
+				FDD9822A26E279F800547C01 /* ImportedDirectoryMonitoring.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FDD9822C26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest */ = {
+		FDD9822C26E279F800547C01 /* ImportedDirectoryMonitoring */ = {
 			isa = PBXGroup;
 			children = (
-				FD9D327F26E2D00E00137C62 /* NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements */,
-				FDD9822D26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift */,
+				FD9D327F26E2D00E00137C62 /* ImportedDirectoryMonitoring.entitlements */,
+				FDD9822D26E279F800547C01 /* ImportedDirectoryMonitoringApp.swift */,
 				FD9D328026E56DF500137C62 /* Info.plist */,
 				FD015C5526F3671C004AF160 /* FilePresenter.swift */,
 			);
-			path = NSMetadataQueryUbiquitousExternalDocumentsTest;
+			path = ImportedDirectoryMonitoring;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FDD9822926E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest */ = {
+		FDD9822926E279F800547C01 /* ImportedDirectoryMonitoring */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDD9823826E279FA00547C01 /* Build configuration list for PBXNativeTarget "NSMetadataQueryUbiquitousExternalDocumentsTest" */;
+			buildConfigurationList = FDD9823826E279FA00547C01 /* Build configuration list for PBXNativeTarget "ImportedDirectoryMonitoring" */;
 			buildPhases = (
 				FDD9822626E279F800547C01 /* Sources */,
 				FDD9822726E279F800547C01 /* Frameworks */,
@@ -76,9 +76,9 @@
 			);
 			dependencies = (
 			);
-			name = NSMetadataQueryUbiquitousExternalDocumentsTest;
-			productName = NSMetadataQueryUbiquitousExternalDocumentsTest;
-			productReference = FDD9822A26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest.app */;
+			name = ImportedDirectoryMonitoring;
+			productName = ImportedDirectoryMonitoring;
+			productReference = FDD9822A26E279F800547C01 /* ImportedDirectoryMonitoring.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -96,7 +96,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FDD9822526E279F800547C01 /* Build configuration list for PBXProject "NSMetadataQueryUbiquitousExternalDocumentsTest" */;
+			buildConfigurationList = FDD9822526E279F800547C01 /* Build configuration list for PBXProject "ImportedDirectoryMonitoring" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,7 +109,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FDD9822926E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTest */,
+				FDD9822926E279F800547C01 /* ImportedDirectoryMonitoring */,
 			);
 		};
 /* End PBXProject section */
@@ -130,7 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD015C5626F3671C004AF160 /* FilePresenter.swift in Sources */,
-				FDD9822E26E279F800547C01 /* NSMetadataQueryUbiquitousExternalDocumentsTestApp.swift in Sources */,
+				FDD9822E26E279F800547C01 /* ImportedDirectoryMonitoringApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +188,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = NSMetadataQueryUbiquitousExternalDocumentsTest/Info.plist;
+				INFOPLIST_FILE = ImportedDirectoryMonitoring/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -244,7 +244,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = NSMetadataQueryUbiquitousExternalDocumentsTest/Info.plist;
+				INFOPLIST_FILE = ImportedDirectoryMonitoring/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -259,19 +259,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = NSMetadataQueryUbiquitousExternalDocumentsTest/NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ImportedDirectoryMonitoring/ImportedDirectoryMonitoring.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2NB974GTCK;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = NSMetadataQueryUbiquitousExternalDocumentsTest/Info.plist;
+				INFOPLIST_FILE = ImportedDirectoryMonitoring/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stevemarshall.NSMetadataQueryUbiquitousExternalDocumentsTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stevemarshall.ImportedDirectoryMonitoring;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -283,19 +283,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = NSMetadataQueryUbiquitousExternalDocumentsTest/NSMetadataQueryUbiquitousExternalDocumentsTest.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ImportedDirectoryMonitoring/ImportedDirectoryMonitoring.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2NB974GTCK;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = NSMetadataQueryUbiquitousExternalDocumentsTest/Info.plist;
+				INFOPLIST_FILE = ImportedDirectoryMonitoring/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stevemarshall.NSMetadataQueryUbiquitousExternalDocumentsTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stevemarshall.ImportedDirectoryMonitoring;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -306,7 +306,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FDD9822526E279F800547C01 /* Build configuration list for PBXProject "NSMetadataQueryUbiquitousExternalDocumentsTest" */ = {
+		FDD9822526E279F800547C01 /* Build configuration list for PBXProject "ImportedDirectoryMonitoring" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDD9823626E279FA00547C01 /* Debug */,
@@ -315,7 +315,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDD9823826E279FA00547C01 /* Build configuration list for PBXNativeTarget "NSMetadataQueryUbiquitousExternalDocumentsTest" */ = {
+		FDD9823826E279FA00547C01 /* Build configuration list for PBXNativeTarget "ImportedDirectoryMonitoring" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDD9823926E279FA00547C01 /* Debug */,

@@ -3,7 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 @main
-struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
+struct ImportedDirectoryMonitoringApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var importing: Importing? = nil
@@ -94,7 +94,7 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
     }
 }
 
-extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+extension ImportedDirectoryMonitoringApp {
     func importFiles(_ result: Result<[URL], Error>) {
         guard case .success(let urls) = result else {
             return
@@ -105,7 +105,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
     }
 }
 
-extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+extension ImportedDirectoryMonitoringApp {
     func configureUbiquityAccess(
         to container: String? = nil,
         then access: (() -> Void)?
@@ -127,7 +127,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
     }
 }
 
-extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+extension ImportedDirectoryMonitoringApp {
     func addFile() {
         guard let fileURL = rootURL?.appendingPathComponent(
             UUID().uuidString,
@@ -140,7 +140,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
     }
 }
 
-extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+extension ImportedDirectoryMonitoringApp {
     func findAccessibleFiles() {
         query.stop()
         fileMonitor?.cancel()
@@ -180,7 +180,7 @@ extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
     }
 }
 
-extension NSMetadataQueryUbiquitousExternalDocumentsTestApp {
+extension ImportedDirectoryMonitoringApp {
     private enum Importing {
         case folder
         case file
