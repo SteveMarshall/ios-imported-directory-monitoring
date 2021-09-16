@@ -15,6 +15,9 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
 
     @State private var rootURL: URL? = nil
 
+    @State private var filePresenters = [FilePresenter]()
+    @State private var observedChanges = [FilePresenter.Change]()
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -25,9 +28,15 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                         }
                     }
 
-                    Section("Found \(foundItems.count) items") {
+                    Section("Found \(foundItems.count) items from NSMetadataQuery") {
                         ForEach(foundItems, id: \.fileSystemName) { found in
                             Text(found.fileSystemName)
+                        }
+                    }
+
+                    Section("Observed changes from FilePresenter") {
+                        ForEach(observedChanges) { change in
+                            Text(change.description)
                         }
                     }
                 }
@@ -57,12 +66,28 @@ struct NSMetadataQueryUbiquitousExternalDocumentsTestApp: App {
                 )
                 .navigationTitle("MetadataQuery Test")
                 .onChange(of: scenePhase) { newPhase in
+                    filePresenters.forEach(NSFileCoordinator.removeFilePresenter(_:))
+
                     guard newPhase == .active else { return }
 
                     configureUbiquityAccess(
                         to: "iCloud.com.stevemarshall.AnnotateML",
                         then: findAccessibleFiles
                     )
+                    filePresenters.forEach(NSFileCoordinator.addFilePresenter(_:))
+                }
+                .onChange(of: importedItems) { importedItems in
+                    filePresenters.forEach(NSFileCoordinator.removeFilePresenter(_:))
+
+                    filePresenters = importedItems.map { importedItem in
+                        FilePresenter(with: importedItem) {
+                            observedChanges.append($0)
+                        }
+                    }
+                }
+                .onChange(of: scenePhase) { newPhase in
+                    guard newPhase == .background else { return }
+
                 }
             }
         }
@@ -176,5 +201,20 @@ extension NSMetadataItem {
         ) as? String else { return "" }
 
         return fileSystemName
+    }
+}
+
+private extension FilePresenter.Change {
+    var description: String {
+        switch self {
+        case .added(let url):
+            return "Added \(url)"
+        case .deleted(let url):
+            return "Deleted \(url)"
+        case .changed(let url):
+            return "Changed \(url)"
+        case .moved(let old, let new):
+            return "Moved \(old) to \(new)"
+        }
     }
 }
