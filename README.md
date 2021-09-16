@@ -21,7 +21,7 @@ directories:
 
 ## Running this code
 
-To run this code, make sure to replace all instances of `AnnotateML`
-and `iCloud.com.stevemarshall.AnnotateML` with references to an iCloud
+To run this code, make sure to replace all instances of `Sample`
+and `iCloud.com.stevemarshall.Sample` with references to an iCloud
 bucket you own, and run it on a device or simulator that's logged in to
 an appropriately-credentialed iCloud account.

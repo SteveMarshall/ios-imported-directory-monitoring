@@ -71,7 +71,7 @@ struct ImportedDirectoryMonitoringApp: App {
                     guard newPhase == .active else { return }
 
                     configureUbiquityAccess(
-                        to: "iCloud.com.stevemarshall.AnnotateML",
+                        to: "iCloud.com.stevemarshall.Sample",
                         then: findAccessibleFiles
                     )
                     filePresenters.forEach(NSFileCoordinator.addFilePresenter(_:))
